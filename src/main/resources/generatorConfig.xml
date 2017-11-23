@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+  
+ <!-- 包含以下子元素（有严格的顺序）：<properties> (0个或1个)<classPathEntry> (0个或多个)<context> (1个或多个) -->
+ 	<!-- <properties>:这个元素用来指定外部的属性元素，不是必须的元素。 -->
+ 	<!-- <classPathEntry>:最常见的用法是通过这个属性指定驱动的路径 -->
+ 	<!-- <context>元素用于指定生成一组对象的环境,例如指定要连接的数据库，要生成对象的类型和要处理的数据库中的表 -->
+<generatorConfiguration>
+	<!-- targetRuntime:此属性用于指定生成的代码的运行时环境 ,默认值是MyBatis3-->
+	<context id="testTables" targetRuntime="MyBatis3">
+		<!-- 定义插件 -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+		<!-- 此处是将Example改名为Criteria 当然 想改成什么都行~ -->
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		
+		<!-- 用于指定数据库连接信息，该元素必选，并且只能有一个 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/qsx_mybatis" userId="root" password="123456">	
+		</jdbcConnection>
+		
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL和 NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		
+		<!-- 该元素用来控制生成的实体类，根据<context>中配置的defaultModelType，一个表可能会对应生成多个不同的实体类。一个表对应多个类实际上并不方便，所以前面也推荐使用flat，这种情况下一个表对应一个实体类。 -->
+		<!-- targetPackage:生成实体类存放的包名 -->
+		<!-- targetProject:指定目标项目路径，可以是绝对路径或相对路径（如 targetProject="src/main/java"） -->
+		<javaModelGenerator targetPackage="online.qsx.model" targetProject=".\src\main\java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		
+		<!-- targetProject:mapper映射文件生成的位置 -->
+		<!-- targetPackage:生成实体类存放的包名 -->
+		<!-- targetProject:指定目标项目路径，可以是绝对路径或相对路径（如 targetProject="src/main/java"） -->
+		<sqlMapGenerator targetPackage="online.qsx.mapper" targetProject=".\src\main\java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		
+		<!-- targetPackage：mapper接口生成的位置 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="online.qsx.mapper" targetProject=".\src\main\java">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		
+		<!-- 该元素用来配置要通过内省的表。只有配置的才会生成实体类和其他文件。 -->
+		<!-- schema:数据库的schema,可以使用SQL通配符匹配。如果设置了该值，生成SQL的表名会变成如schema.tableName的形式。 -->
+		<!-- tableName：指定要生成的表名， -->
+		<!-- domainObjectName:生成对象的基本名称。如果没有指定，MBG会自动根据表名来生成名称。 -->
+		<table schema="" tableName="grade" domainObjectName="GradeModel" />
+		<table schema="" tableName="student" domainObjectName="StudentModel" />
+		<table schema="" tableName="result" domainObjectName="ResultModel" />
+		<table schema="" tableName="subject" domainObjectName="SubjectModel" />
+	</context>
+</generatorConfiguration>
